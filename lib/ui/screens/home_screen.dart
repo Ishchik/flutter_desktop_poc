@@ -1,9 +1,19 @@
+import 'package:desktop_poc/ui/screens/components/player_widget.dart';
 import 'package:desktop_poc/ui/screens/components/rouded_container.dart';
 import 'package:desktop_poc/ui/screens/components/side_menu.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+import 'components/doctor_card.dart';
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final ScrollController controller = ScrollController();
+
+  final List<Widget> players = [];
 
   Widget get _appBar => Container(
         color: Colors.white,
@@ -207,6 +217,12 @@ class HomeScreen extends StatelessWidget {
       );
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFEEEAF8),
@@ -214,209 +230,165 @@ class HomeScreen extends StatelessWidget {
         children: [
           SideMenu(),
           Expanded(
-            child: Column(
+            child: Stack(
               children: [
-                _appBar,
-                Expanded(
-                  child: Scrollbar(
-                    controller: controller,
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 30.0,
-                          horizontal: 40.0,
-                        ),
-                        child: Column(
-                          children: [
-                            _topContent,
-                            SizedBox(height: 20),
-                            Row(
+                Column(
+                  children: [
+                    _appBar,
+                    Expanded(
+                      child: Scrollbar(
+                        controller: controller,
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 30.0,
+                              horizontal: 40.0,
+                            ),
+                            child: Column(
                               children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          'Medical history',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 23,
+                                _topContent,
+                                SizedBox(height: 20),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              'Medical history',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 23,
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                          SizedBox(width: 20),
+                                          Expanded(
+                                            child: Row(
+                                              children: [
+                                                Text('Sort by type'),
+                                                SizedBox(width: 5),
+                                                Text('Consultation'),
+                                                Icon(Icons.keyboard_arrow_down),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(width: 20),
+                                          Expanded(
+                                            child: Row(
+                                              children: [
+                                                Text('Sort by year'),
+                                                SizedBox(width: 5),
+                                                Text('2020'),
+                                                Icon(Icons.keyboard_arrow_down),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(width: 20),
-                                      Expanded(
-                                        child: Row(
-                                          children: [
-                                            Text('Sort by type'),
-                                            SizedBox(width: 5),
-                                            Text('Consultation'),
-                                            Icon(Icons.keyboard_arrow_down),
-                                          ],
-                                        ),
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          RawMaterialButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                players.add(
+                                                  PlayerWidget(
+                                                    destination:
+                                                        'Hospital staff',
+                                                    assetUrl:
+                                                        'https://i.pinimg.com/originals/31/ba/7b/31ba7b03f026544f0d30c4b7388e4960.gif',
+                                                    onClose: (player) =>
+                                                        setState(() {
+                                                      players.remove(player);
+                                                    }),
+                                                  ),
+                                                );
+                                              });
+                                            },
+                                            child:
+                                                Text('Connect: Hospital staff'),
+                                          ),
+                                          RawMaterialButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                players.add(
+                                                  PlayerWidget(
+                                                    destination: 'Doctor',
+                                                    assetUrl:
+                                                        'https://media4.giphy.com/media/k8GoZ9AxmxR6isQt9V/giphy.gif',
+                                                    onClose: (player) =>
+                                                        setState(() {
+                                                      players.remove(player);
+                                                    }),
+                                                  ),
+                                                );
+                                              });
+                                            },
+                                            child: Text('Connect: Doctor'),
+                                          ),
+                                          RawMaterialButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                players.add(
+                                                  PlayerWidget(
+                                                    destination: 'Nurse',
+                                                    assetUrl:
+                                                        'https://media1.giphy.com/media/31Q7szds1w27BZwvnt/giphy.gif',
+                                                    onClose: (player) =>
+                                                        setState(() {
+                                                      players.remove(player);
+                                                    }),
+                                                  ),
+                                                );
+                                              });
+                                            },
+                                            child: Text('Connect: Nurse'),
+                                          ),
+                                          RawMaterialButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                players.add(
+                                                  PlayerWidget(
+                                                    destination: 'Vital signs',
+                                                    assetUrl:
+                                                        'https://www.obsidiansoft.com/wp-content/uploads/vital.gif',
+                                                    onClose: (player) =>
+                                                        setState(() {
+                                                      players.remove(player);
+                                                    }),
+                                                  ),
+                                                );
+                                              });
+                                            },
+                                            child: Text(
+                                                'Connect: Spot Vitals machine'),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(width: 20),
-                                      Expanded(
-                                        child: Row(
-                                          children: [
-                                            Text('Sort by year'),
-                                            SizedBox(width: 5),
-                                            Text('2020'),
-                                            Icon(Icons.keyboard_arrow_down),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      RawMaterialButton(
-                                        onPressed: () {},
-                                        child: Text('Connect: Hospital staff'),
-                                      ),
-                                      RawMaterialButton(
-                                        onPressed: () {},
-                                        child: Text('Connect: Doctor'),
-                                      ),
-                                      RawMaterialButton(
-                                        onPressed: () {},
-                                        child: Text('Connect: Nurse'),
-                                      ),
-                                      RawMaterialButton(
-                                        onPressed: () {},
-                                        child: Text(
-                                            'Connect: Spot Vitals machine'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                _medicalHistory
                               ],
                             ),
-                            _medicalHistory
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
+                ),
+                Wrap(
+                  children: players,
                 ),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class DoctorCard extends StatefulWidget {
-  DoctorCard({
-    this.child,
-    this.doctorName = 'dr John Smith',
-    this.speciality = 'Unknown',
-    this.date,
-    this.location = 'Unknown location',
-    this.communicationType = 'Unknown',
-  });
-  final Widget child;
-  final String doctorName;
-  final String speciality;
-  final DateTime date;
-  final String location;
-  final String communicationType;
-
-  @override
-  _DoctorCardState createState() => _DoctorCardState();
-}
-
-class _DoctorCardState extends State<DoctorCard> {
-  bool isOpen = false;
-
-  String get date => widget.date == null
-      ? 'unknown date'
-      : '${widget.date.day}/${widget.date.month}/${widget.date.year}';
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        RoundedContainer(
-          child: Row(
-            children: [
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Row(
-                        children: [
-                          Icon(Icons.people),
-                          Text(widget.doctorName),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(widget.speciality),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(date),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Row(
-                        children: [
-                          Text(widget.location),
-                        ],
-                      ),
-                    ),
-                    Expanded(child: Text(widget.communicationType)),
-                    RawMaterialButton(
-                      onPressed: () {
-                        setState(() {
-                          isOpen = !isOpen;
-                        });
-                      },
-                      elevation: 2.0,
-                      fillColor: isOpen
-                          ? Colors.deepPurple[300]
-                          : Colors.deepPurple[100],
-                      // padding: EdgeInsets.all(15.0),
-                      shape: CircleBorder(),
-                      child: Icon(
-                        isOpen
-                            ? Icons.keyboard_arrow_up
-                            : Icons.keyboard_arrow_down,
-                        size: 35.0,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (isOpen) SizedBox(height: 10),
-        if (isOpen)
-          RoundedContainer(
-            color: Color(0xFFFAFAFA),
-            // height: 30,
-            width: double.infinity,
-            child: widget.child,
-          ),
-      ],
     );
   }
 }
