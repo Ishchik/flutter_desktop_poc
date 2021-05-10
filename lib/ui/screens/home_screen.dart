@@ -166,6 +166,46 @@ class HomeScreen extends StatelessWidget {
         ],
       );
 
+  Widget get _medicalHistory => Column(
+        children: [
+          SizedBox(height: 10),
+          DoctorCard(
+            doctorName: 'dr Anthony Wagner',
+            speciality: 'Dermatologist',
+            date: DateTime(2020, 11, 19),
+            location: 'Grand Medical Centre, 58 OxfordSt, London',
+            communicationType: 'Hospital Visit',
+            child: Container(
+              height: 300,
+            ),
+          ),
+          SizedBox(height: 10),
+          DoctorCard(
+            doctorName: 'dr Caroline Fields',
+            speciality: 'Cardiologist',
+            date: DateTime(2020, 11, 18),
+            location: 'New York Hospital Medical Center, 5th Ave 452',
+            communicationType: 'Medical consultation',
+            child: Container(
+              height: 300,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          DoctorCard(
+            doctorName: 'dr Tom Humpton',
+            speciality: 'Dentist',
+            date: DateTime(2020, 10, 12),
+            location: 'New York Hospital Medical Center, 5th Ave 452',
+            communicationType: 'Medical consultation',
+            child: Container(
+              height: 300,
+            ),
+          ),
+        ],
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,21 +235,37 @@ class HomeScreen extends StatelessWidget {
                                 Expanded(
                                   child: Row(
                                     children: [
-                                      Text(
-                                        'Medical history',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 23,
+                                      Expanded(
+                                        child: Text(
+                                          'Medical history',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 23,
+                                          ),
                                         ),
                                       ),
                                       SizedBox(width: 20),
-                                      Text('Sort by type'),
-                                      SizedBox(width: 5),
-                                      Text('Consultation'),
+                                      Expanded(
+                                        child: Row(
+                                          children: [
+                                            Text('Sort by type'),
+                                            SizedBox(width: 5),
+                                            Text('Consultation'),
+                                            Icon(Icons.keyboard_arrow_down),
+                                          ],
+                                        ),
+                                      ),
                                       SizedBox(width: 20),
-                                      Text('Sort by year'),
-                                      SizedBox(width: 5),
-                                      Text('2020'),
+                                      Expanded(
+                                        child: Row(
+                                          children: [
+                                            Text('Sort by year'),
+                                            SizedBox(width: 5),
+                                            Text('2020'),
+                                            Icon(Icons.keyboard_arrow_down),
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -220,45 +276,27 @@ class HomeScreen extends StatelessWidget {
                                     children: [
                                       RawMaterialButton(
                                         onPressed: () {},
-                                        child: Text('Connect:'),
+                                        child: Text('Connect: Hospital staff'),
                                       ),
                                       RawMaterialButton(
                                         onPressed: () {},
-                                        child: Text('Connect:'),
+                                        child: Text('Connect: Doctor'),
                                       ),
                                       RawMaterialButton(
                                         onPressed: () {},
-                                        child: Text('Connect:'),
+                                        child: Text('Connect: Nurse'),
                                       ),
                                       RawMaterialButton(
                                         onPressed: () {},
-                                        child: Text('Connect:'),
+                                        child: Text(
+                                            'Connect: Spot Vitals machine'),
                                       ),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(height: 10),
-                            DoctorCard(
-                              child: Container(
-                                height: 300,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            DoctorCard(
-                              child: Container(
-                                height: 300,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            DoctorCard(
-                              child: Container(
-                                height: 300,
-                              ),
-                            ),
+                            _medicalHistory
                           ],
                         ),
                       ),
@@ -275,8 +313,20 @@ class HomeScreen extends StatelessWidget {
 }
 
 class DoctorCard extends StatefulWidget {
-  DoctorCard({this.child});
+  DoctorCard({
+    this.child,
+    this.doctorName = 'dr John Smith',
+    this.speciality = 'Unknown',
+    this.date,
+    this.location = 'Unknown location',
+    this.communicationType = 'Unknown',
+  });
   final Widget child;
+  final String doctorName;
+  final String speciality;
+  final DateTime date;
+  final String location;
+  final String communicationType;
 
   @override
   _DoctorCardState createState() => _DoctorCardState();
@@ -285,34 +335,74 @@ class DoctorCard extends StatefulWidget {
 class _DoctorCardState extends State<DoctorCard> {
   bool isOpen = false;
 
+  String get date => widget.date == null
+      ? 'unknown date'
+      : '${widget.date.day}/${widget.date.month}/${widget.date.year}';
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         RoundedContainer(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(Icons.people),
-              Text('dr Name Surname'),
-              Text('Consultation'),
-              Text('Datetime'),
-              Text('Location'),
-              Text('Communication type'),
-              RawMaterialButton(
-                onPressed: () {
-                  setState(() {
-                    isOpen = !isOpen;
-                  });
-                },
-                elevation: 2.0,
-                fillColor:
-                    isOpen ? Colors.deepPurple[300] : Colors.deepPurple[100],
-                // padding: EdgeInsets.all(15.0),
-                shape: CircleBorder(),
-                child: Icon(
-                  isOpen ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                  size: 35.0,
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: Row(
+                        children: [
+                          Icon(Icons.people),
+                          Text(widget.doctorName),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(widget.speciality),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(date),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Row(
+                        children: [
+                          Text(widget.location),
+                        ],
+                      ),
+                    ),
+                    Expanded(child: Text(widget.communicationType)),
+                    RawMaterialButton(
+                      onPressed: () {
+                        setState(() {
+                          isOpen = !isOpen;
+                        });
+                      },
+                      elevation: 2.0,
+                      fillColor: isOpen
+                          ? Colors.deepPurple[300]
+                          : Colors.deepPurple[100],
+                      // padding: EdgeInsets.all(15.0),
+                      shape: CircleBorder(),
+                      child: Icon(
+                        isOpen
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        size: 35.0,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
