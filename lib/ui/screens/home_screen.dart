@@ -300,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     destination:
                                                         'Hospital staff',
                                                     assetUrl:
-                                                        'https://i.pinimg.com/originals/31/ba/7b/31ba7b03f026544f0d30c4b7388e4960.gif',
+                                                        'https://media3.giphy.com/media/UQUvaOURFAjQECetVg/giphy.gif?cid=ecf05e47d3950yrkw6iqnxlnknavn1svekoxm5z2x6c4u8ea&rid=giphy.gif&ct=g',
                                                     onClose: (player) =>
                                                         setState(() {
                                                       players.remove(player);
@@ -319,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   PlayerWidget(
                                                     destination: 'Doctor',
                                                     assetUrl:
-                                                        'https://media4.giphy.com/media/k8GoZ9AxmxR6isQt9V/giphy.gif',
+                                                        'https://i.giphy.com/media/VF4qo9bXaudUu2pN0k/giphy.webp',
                                                     onClose: (player) =>
                                                         setState(() {
                                                       players.remove(player);
@@ -337,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   PlayerWidget(
                                                     destination: 'Nurse',
                                                     assetUrl:
-                                                        'https://media1.giphy.com/media/31Q7szds1w27BZwvnt/giphy.gif',
+                                                        'https://66.media.tumblr.com/4ad5738e53684f49011c4b485fb4a3a5/tumblr_pt40tqEgKG1xe1vj3o1_540.gif',
                                                     onClose: (player) =>
                                                         setState(() {
                                                       players.remove(player);
@@ -382,6 +382,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Wrap(
+                  spacing: 15,
+                  runSpacing: 15,
                   children: players,
                 ),
               ],
