@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 
 import 'components/doctor_card.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreenBig extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeScreenBigState createState() => _HomeScreenBigState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenBigState extends State<HomeScreenBig> {
   final ScrollController controller = ScrollController();
 
   final List<Widget> players = [];
