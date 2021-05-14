@@ -1,3 +1,4 @@
+import 'package:desktop_poc/services/window_manager/window_manager.dart';
 import 'package:desktop_poc/ui/screens/components/player_widget.dart';
 import 'package:desktop_poc/ui/screens/components/rouded_container.dart';
 import 'package:desktop_poc/ui/screens/components/side_menu.dart';
@@ -6,6 +7,10 @@ import 'package:flutter/material.dart';
 import 'components/doctor_card.dart';
 
 class HomeScreenBig extends StatefulWidget {
+  const HomeScreenBig({Key key, this.windowKey}) : super(key: key);
+
+  final ValueKey windowKey;
+
   @override
   _HomeScreenBigState createState() => _HomeScreenBigState();
 }
@@ -222,8 +227,12 @@ class _HomeScreenBigState extends State<HomeScreenBig> {
     super.dispose();
   }
 
+  final List<String> _keys = [];
+
   @override
   Widget build(BuildContext context) {
+    final current = widget.windowKey.value;
+
     return Scaffold(
       backgroundColor: Color(0xFFEEEAF8),
       body: Row(
@@ -293,22 +302,48 @@ class _HomeScreenBigState extends State<HomeScreenBig> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           RawMaterialButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                players.add(
-                                                  PlayerWidget(
-                                                    destination:
-                                                        'Hospital staff',
-                                                    assetUrl:
-                                                        'https://media3.giphy.com/media/UQUvaOURFAjQECetVg/giphy.gif?cid=ecf05e47d3950yrkw6iqnxlnknavn1svekoxm5z2x6c4u8ea&rid=giphy.gif&ct=g',
-                                                    onClose: (player) =>
-                                                        setState(() {
-                                                      players.remove(player);
-                                                    }),
-                                                  ),
-                                                );
-                                              });
+                                            onPressed: () async {
+                                              final _offset =
+                                                  await WindowController
+                                                      .getWindowOffset(current);
+                                              final _size =
+                                                  await WindowController
+                                                      .getWindowSize(current);
+                                              print(
+                                                  'Offset: $_offset, Size: $_size');
+                                              await WindowController
+                                                  .createWindow(
+                                                WindowController.generateKey(),
+                                                offset: (_offset.translate(
+                                                    _offset.dx + 2,
+                                                    _offset.dy - 2)),
+                                                size: _size,
+                                              );
+                                              final _key =
+                                                  await WindowController
+                                                      .lastWindowKey();
+                                              if (mounted) {
+                                                setState(() {
+                                                  _keys.add(_key);
+                                                });
+                                              }
                                             },
+                                            // onPressed: () {
+                                            // setState(() {
+                                            //   players.add(
+                                            //     PlayerWidget(
+                                            //       destination:
+                                            //           'Hospital staff',
+                                            //       assetUrl:
+                                            //           'https://media3.giphy.com/media/UQUvaOURFAjQECetVg/giphy.gif?cid=ecf05e47d3950yrkw6iqnxlnknavn1svekoxm5z2x6c4u8ea&rid=giphy.gif&ct=g',
+                                            //       onClose: (player) =>
+                                            //           setState(() {
+                                            //         players.remove(player);
+                                            //       }),
+                                            //     ),
+                                            //   );
+                                            // });
+                                            // },
                                             child:
                                                 Text('Connect: Hospital staff'),
                                           ),
